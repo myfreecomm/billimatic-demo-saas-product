@@ -1,0 +1,33 @@
+<div class="page-header">
+    <h1>Planos</h1>
+</div>
+<div class="row">
+    <div class="col-md-offset-3">
+        <% @plans.each do |plan| %>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading"><h4><%= plan.name %></h4></div>
+                    <div class="panel-body">
+                        <div class="col-md-10 col-md-offset-1">
+                            <h5>O que este plano oferece?</h5>
+                            <p><%= plan.description %></p>
+                            <p>
+                                <h4>Preço: </h4><%= number_to_currency(plan.price, format: "%u %n", separator: ",", delimiter: ".", unit: "R$") %>
+                            </p>
+                            <h5>Que produtos este plano oferece?</h5>
+                            <% plan.products.each do |product| %>
+                                <p>
+                                    <%= product.units.to_i %> X
+                                    Aluguel do <%= product.name %>
+                                </p>
+                            <% end %>
+                            <p class="col-sm-offset-3">
+                                <%= link_to('Experimente!', new_subscription_path) %>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% end %>
+    </div>
+</div>
