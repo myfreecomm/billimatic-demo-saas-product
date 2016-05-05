@@ -1,5 +1,5 @@
 <div class="page-header">
-    <h1>Planos</h1>
+    <h1 class="page-title">Planos</h1>
 </div>
 <div class="row">
     <div class="col-md-offset-3">
@@ -22,7 +22,7 @@
                                 </p>
                             <% end %>
                             <p class="col-sm-offset-3">
-                                <%= link_to('Experimente!', new_subscription_path) %>
+                                <%= link_to('Experimente!', new_subscription_path(plan_id: plan.id)) %>
                             </p>
                         </div>
                     </div>

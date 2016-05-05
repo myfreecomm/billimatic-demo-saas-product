@@ -1,0 +1,110 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <h3 class="page-title">Para a criação de sua assinatura, por favor, preencha os dados abaixo:</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 col-sm-offset-2">
+            <div class="panel panel-primary">
+                <div class="panel-body">
+                    <div class="col-sm-10 col-sm-offset-1">
+                        <%= form_tag subscriptions_path, class: 'form-horizontal' do %>
+                            <%= hidden_field_tag 'plan_id', params[:plan_id] %>
+                            <div class="form-group">
+                                <%= label_tag :tag, 'Escolha o tipo do cadastro:' %>
+                                <div class="col-sm-6 col-sm-offset-4">
+                                    <div class="radio">
+                                        <%= label_tag :company, nil, class: 'radio-inline' do %>
+                                            <%= radio_button_tag :customer_type, 'Company' %> Pessoa Jurídica
+                                        <% end %>
+                                        <%= label_tag :person, nil, class: 'radio-inline' do %>
+                                            <%= radio_button_tag :customer_type, 'Person' %> Pessoa Física
+                                        <% end %>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="form-group">
+                                <%= label_tag :customer_name, 'Nome', class: 'col-sm-4 control-label' %>
+                                <div class="col-sm-6">
+                                    <%= text_field_tag :customer_name, nil, class: 'form-control' %>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <%= label_tag :customer_email, 'Email', class: 'col-sm-4 control-label' %>
+                                <div class="col-sm-6">
+                                    <%= email_field_tag :customer_email, nil, class: 'form-control' %>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <%= label_tag :customer_document, 'Documento (CPF ou CNPJ)', class: 'col-sm-4 control-label' %>
+                                <div class="col-sm-6">
+                                    <%= text_field_tag :customer_document, nil, class: 'form-control' %>
+                                </div>
+                            </div>
+                            <br>
+                            <h4>Endereço</h4>
+                            <br>
+                            <br>
+                            <div class="form-group">
+                                <%= label_tag :customer_address_information_address, 'Logradouro', class: 'col-sm-4 control-label' %>
+                                <div class="col-sm-6">
+                                    <%= text_field_tag :customer_address_information_address, nil, class: 'form-control' %>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <%= label_tag :customer_address_information_number, 'Número', class: 'col-sm-4 control-label' %>
+                                <div class="col-sm-2">
+                                    <%= text_field_tag :customer_address_information_number, nil, class: 'form-control' %>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <%= label_tag :customer_address_information_complement, 'Complemento', class: 'col-sm-4 control-label' %>
+                                <div class="col-sm-4">
+                                    <%= text_field_tag :customer_address_information_complement, nil, class: 'form-control' %>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <%= label_tag :customer_address_information_district, 'Bairro', class: 'col-sm-4 control-label' %>
+                                <div class="col-sm-4">
+                                    <%= text_field_tag :customer_address_information_district, nil, class: 'form-control' %>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <%= label_tag :customer_address_information_zipcode, 'CEP', class: 'col-sm-4 control-label' %>
+                                <div class="col-sm-4">
+                                    <%= text_field_tag :customer_address_information_zipcode, nil, class: 'form-control' %>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <%= label_tag :customer_address_information_city, 'Cidade', class: 'col-sm-4 control-label' %>
+                                <div class="col-sm-6">
+                                    <%= text_field_tag :customer_address_information_city, nil, class: 'form-control' %>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <%= label_tag :customer_address_information_state, 'Estado', class: 'col-sm-4 control-label' %>
+                                <div class="col-sm-2">
+                                    <%= text_field_tag :customer_address_information_state, nil, class: 'form-control' %>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <%= label_tag :customer_address_information_ibge_code, 'Código IBGE', class: 'col-sm-4 control-label' %>
+                                <div class="col-sm-4">
+                                    <%= select_tag :customer_address_information_ibge_code, options_for_select(['3304904', '3550308']), class: 'form-control' %>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-4 col-sm-8">
+                                    <%= submit_tag 'Enviar', class: 'btn btn-default' %>
+                                    <%= link_to 'Cancelar', root_path, class: 'btn btn-default' %>
+                                </div>
+                            </div>
+                        <% end %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
