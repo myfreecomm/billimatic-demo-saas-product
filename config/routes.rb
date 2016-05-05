@@ -3,6 +3,10 @@ Rails.application.routes.draw do
 
   get '/plan/:plan_id/subscriptions/new' => 'subscriptions#new', as: :new_subscription
   resources :subscriptions, only: [:create]
+  get '/login'                           => 'sessions#new',      as: :login
+  post '/login/success'                  => 'sessions#create',   as: :login_success
+  get '/logout'                          => 'sessions#destroy',  as: :logout
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

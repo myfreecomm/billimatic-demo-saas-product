@@ -23,8 +23,11 @@ class SubscriptionsController < ApplicationController
       }
     )
 
+    User.create(name: params[:customer_name], token: subscription.token)
+
     if subscription.plan.has_trial == true
-      redirect_to root_path, notice: 'Assinatura de degustação criada com sucesso. A partir de agora, você pode começar a usar nosso produto.'
+      redirect_to login_path,
+                  notice: "Assinatura de degustação criada com sucesso. Para fazer o login, use o token #{subscription.token}"
     else
       redirect_to billimatic_checkout_url(token: subscription.token)
     end
