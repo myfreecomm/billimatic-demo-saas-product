@@ -5,9 +5,8 @@ class SessionsController < ApplicationController
 
   def create
     user = User.find_by!(token: params[:token])
-
     session[:user_id] = user.id
-    redirect_to root_url, notice: "Bem vindo, #{user.name} !"
+    redirect_to user_url(user), notice: "Bem vindo, #{user.name} !"
   rescue ActiveRecord::RecordNotFound
     redirect_to login_path, alert: 'Não foi possível fazer o login. Verifique seus dados e tente novamente.'
   end

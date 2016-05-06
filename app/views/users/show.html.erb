@@ -3,19 +3,14 @@
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h4><%= current_user.name %></h4>&nbsp;&bull;
-                    <%= link_to 'Voltar para a página inicial', root_path %>
+                    <h4><%= current_user.name %></h4>
                 </div>
                 <ul class="list-group">
                     <li class="list-group-item">
-                        <h5>Contrato</h5>
+                        <h5><%= @subscription.name %></h5>
                     </li>
                     <li class="list-group-item">
-                        <p>Nome: <%= @subscription.name %></p>
-                        <p>Título: <%= @subscription.title %></p>
-                    </li>
-                    <li class="list-group-item">
-                        <p>Data de início da vigência: <%= l @subscription.init_date %></p>
+                        <p>Data de início da assinatura: <%= l @subscription.init_date %></p>
                         <% if @subscription.status == 'trial' %>
                             <p>Término do período de degustação: <%= l @subscription.end_date %></p>
                             <p>
@@ -23,24 +18,73 @@
                                 Para efetuar a compra, clique <b><%= link_to 'aqui', billimatic_checkout_url(token: current_user.token) %></b>.
                         <% end %>
                         <% if @subscription.overdue == true %>
-                            O seu contrato encontra-se com pagamentos em atraso.
+                            O seu contrato encontra-se com pagamentos em atraso, por isso, o seu acesso está bloqueado.
                             Para efetuar a regularização de seu contrato, clique <b><%= link_to 'aqui', billimatic_checkout_url(token: current_user.token) %></b>.
                         <% end %>
                             </p>
                             <p>
                                 <% if @subscription.status == 'established' %>
-                                    Clique <b><%= link_to 'aqui', billimatic_subscription_dashboard_url(token: current_user.token) %></b> para acessar o dashboard de seu contrato.
+                                    Clique <b><%= link_to 'aqui', billimatic_subscription_dashboard_url(token: current_user.token) %></b> para acessar o seu histórico de pagamentos, dados de cobrança e forma de pagamento.
                                 <% end %>
                             </p>
                     </li>
                     <li class="list-group-item">
-                        <h5>Plano Contratado</h5>
+                        <h5>Detalhes do Plano</h5>
                     </li>
                     <li class="list-group-item">
-                        <p><%= @subscription.plan.name %></p>
-                        <p><%= @subscription.plan.description %></p>
-                        <p><%= number_to_currency(@subscription.plan.price) %></p>
+                        <ul>
+                            <li><p><%= @subscription.plan.name %></p></li>
+                            <li><p><%= @subscription.plan.description %></p></li>
+                            <li><p><%= number_to_currency(@subscription.plan.price) %></p></li>
+                            <li><p>Pagamento feito <%= @subscription.plan.translated_billing_period.downcase %></p></li>
+                        </ul>
                     </li>
+                    <% unless @subscription.status == 'trial' || @subscription.status == 'cancelled' %>
+                        <li class="list-group-item">
+                            <h5>Planos disponíveis para você</h5>
+                        </li>
+                        <li class="list-group-item">
+                            <% if @plans.count { |plan| plan.name != @subscription.plan.name } == 0 %>
+                                <p>Não há planos disponíveis no momento.</p>
+                            <% else %>
+                                <div class="row">
+                                    <% @plans.reject { |plan| plan.name == @subscription.plan.name }.each do |plan| %>
+                                        <div class="col-sm-6">
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">
+                                                    <b><%= plan.name %></b>
+                                                </div>
+                                                <div class="panel-body">
+                                                    <ul class="list-group">
+                                                        <li class="list-group-item">
+                                                        </li>
+                                                        <li class="list-group-item">
+                                                            <p><%= plan.description %></p>
+                                                        </li>
+                                                        <li class="list-group-item">
+                                                            <p><b>Preço: </b><%= number_to_currency plan.price %></p>
+                                                            <p>Pagamento feito <%= plan.translated_billing_period.downcase %></p>
+                                                        </li>
+                                                        <li class="list-group-item">
+                                                            <div class="col-sm-offset-3">
+                                                                <% if plan.price < @subscription.plan.price && plan.billing_period == @subscription.plan.billing_period %>
+                                                                    <h4><%= link_to 'Fazer downgrade', billimatic_change_plan_url(token: current_user.token, plan_id: plan.id) %></h4>
+                                                                <% elsif plan.price > @subscription.plan.price && plan.billing_period == @subscription.plan.billing_period  %>
+                                                                    <h4><%= link_to 'Fazer upgrade', billimatic_change_plan_url(token: current_user.token, plan_id: plan.id) %></h4>
+                                                                <% elsif plan.billing_period != @subscription.plan.billing_period %>
+                                                                    <h4><%= link_to 'Alterar plano', billimatic_change_plan_url(token: current_user.token, plan_id: plan.id) %></h4>
+                                                                <% end %>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <% end %>
+                                </div>
+                            <% end %>
+                        </li>
+                    <% end %>
                     <li class="list-group-item">
                         <p>
                             O token do seu contrato é <%= current_user.token %> (para login)

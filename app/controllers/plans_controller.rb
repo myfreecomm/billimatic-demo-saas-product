@@ -1,5 +1,6 @@
 class PlansController < ApplicationController
+  before_action :set_plans, :redirect_to_user
+
   def index
-    @plans = @client.plans.list(organization_id: 486)
   end
 end

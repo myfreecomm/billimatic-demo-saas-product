@@ -6,10 +6,19 @@ class ApplicationController < ActionController::Base
   before_action :set_billimatic_client
 
   helper_method :current_user, :billimatic_checkout_url,
-                :billimatic_subscription_dashboard_url
+                :billimatic_subscription_dashboard_url,
+                :billimatic_change_plan_url
 
   def set_billimatic_client
     @client ||= Billimatic.client('4d34754cd68bbe74d725f6c8c9f6b48f')
+  end
+
+  def set_plans
+    @plans = @client.plans.list(organization_id: 486)
+  end
+
+  def redirect_to_user
+    redirect_to current_user if current_user
   end
 
   def current_user
@@ -22,5 +31,9 @@ class ApplicationController < ActionController::Base
 
   def billimatic_subscription_dashboard_url(token:)
     "http://sandbox.billimatic.com.br/subscriptions/#{token}/dashboard"
+  end
+
+  def billimatic_change_plan_url(token:, plan_id:)
+    "http://sandbox.billimatic.com.br/subscriptions/#{token}/change_plan/#{plan_id}"
   end
 end

@@ -1,30 +1,48 @@
 <div class="page-header">
     <h1 class="page-title">Planos</h1>
 </div>
-<div class="row">
-    <div class="col-md-12 col-md-offset-2">
+<div class="container-fluid">
+    <div class="row">
         <% @plans.each do |plan| %>
-            <div class="col-md-4">
+            <div class="col-sm-4">
                 <div class="panel panel-default">
-                    <div class="panel-heading"><h4><%= plan.name %></h4></div>
+                    <div class="panel-heading">
+                        <h3><%= plan.name %></h3>
+                    </div>
                     <div class="panel-body">
-                        <div class="col-md-10 col-md-offset-1">
-                            <h5>O que este plano oferece?</h5>
-                            <p><%= plan.description %></p>
-                            <p>
-                                <h4>Preço: </h4><%= number_to_currency(plan.price) %>
-                            </p>
-                            <h5>Que produtos este plano oferece?</h5>
-                            <% plan.products.each do |product| %>
-                                <p>
-                                    <%= product.units.to_i %> X
-                                    Aluguel do <%= product.name %>
-                                </p>
-                            <% end %>
-                            <p class="col-sm-offset-3">
-                                <%= link_to('Experimente!', new_subscription_path(plan_id: plan.id)) %>
-                            </p>
-                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <div>
+                                    <h5>Para quem este plano é indicado?</h5>
+                                    <p><%= plan.description %></p>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div>
+                                    <p>
+                                        <h4>Preço: </h4><%= number_to_currency(plan.price) %>
+                                    </p>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div>
+                                    <h5>Que produtos este plano oferece?</h5>
+                                    <% plan.products.each do |product| %>
+                                        <p>
+                                            <%= product.units.to_i %> X
+                                            Aluguel do <%= product.name %>
+                                        </p>
+                                    <% end %>
+                                </div>
+                            </li>
+                            <li class="list-group-item">
+                                <div class="col-sm-offset-3">
+                                    <p>
+                                        <h3><%= link_to('Experimente!', new_subscription_path(plan_id: plan.id)) %></h3>
+                                    </p>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>

@@ -1,4 +1,6 @@
 class SubscriptionsController < ApplicationController
+  before_action :redirect_to_user
+
   def new
   end
 
