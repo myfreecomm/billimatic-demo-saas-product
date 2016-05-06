@@ -24,17 +24,16 @@
                                     </p>
                                 </div>
                             </li>
-                            <li class="list-group-item">
-                                <div>
-                                    <h5>Que produtos este plano oferece?</h5>
-                                    <% plan.products.each do |product| %>
-                                        <p>
-                                            <%= product.units.to_i %> X
-                                            Aluguel do <%= product.name %>
-                                        </p>
-                                    <% end %>
-                                </div>
-                            </li>
+                            <% if plan.features.any? %>
+                                <li class="list-group-item">
+                                    <div>
+                                        <h5>O que este plano oferece?</h5>
+                                        <% plan.features.each do |feature| %>
+                                            <p><%= feature %></p>
+                                        <% end %>
+                                    </div>
+                                </li>
+                            <% end %>
                             <li class="list-group-item">
                                 <div class="col-sm-offset-3">
                                     <p>

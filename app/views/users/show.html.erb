@@ -16,17 +16,26 @@
                             <p>
                                 Você ainda tem <%= distance_of_time_in_words(Date.today, @subscription.end_date) %> para avaliar nosso produto.
                                 Para efetuar a compra, clique <b><%= link_to 'aqui', billimatic_checkout_url(token: current_user.token) %></b>.
-                        <% end %>
-                        <% if @subscription.overdue == true %>
-                            O seu contrato encontra-se com pagamentos em atraso, por isso, o seu acesso está bloqueado.
-                            Para efetuar a regularização de seu contrato, clique <b><%= link_to 'aqui', billimatic_checkout_url(token: current_user.token) %></b>.
-                        <% end %>
+                            </p>
+                        <% elsif @subscription.overdue == true && @subscription.status != 'cancelled' %>
+                            <p>
+                                O seu contrato encontra-se com pagamentos em atraso, por isso, o seu acesso está bloqueado.
+                                Para efetuar a regularização de seu contrato, clique <b><%= link_to 'aqui', billimatic_checkout_url(token: current_user.token) %></b>.
+                            </p>
+                        <% elsif @subscription.status == 'established' %>
+                            <p class="text-success">
+                                Assinatura ativa.
                             </p>
                             <p>
-                                <% if @subscription.status == 'established' %>
-                                    Clique <b><%= link_to 'aqui', billimatic_subscription_dashboard_url(token: current_user.token) %></b> para acessar o seu histórico de pagamentos, dados de cobrança e forma de pagamento.
-                                <% end %>
+                                Clique <b><%= link_to 'aqui', billimatic_subscription_dashboard_url(token: current_user.token) %></b> para acessar o seu histórico de pagamentos, dados de cobrança e forma de pagamento.
                             </p>
+                        <% elsif @subscription.status == 'cancelled' %>
+                            <p>Término da assinatura: <%= l @subscription.end_date %></p>
+                            <p class="text-danger">
+                                Sua assinatura foi cancelada recentemente. Para ter acesso ao produto, é necessária a criação de uma nova assinatura.
+                                Se este cancelamento não foi feito por você, por favor, entre em contato com nossa Central de Atendimento.
+                            </p>
+                        <% end %>
                     </li>
                     <li class="list-group-item">
                         <h5>Detalhes do Plano</h5>
@@ -34,8 +43,12 @@
                     <li class="list-group-item">
                         <ul>
                             <li><p><%= @subscription.plan.name %></p></li>
-                            <li><p><%= @subscription.plan.description %></p></li>
-                            <li><p><%= number_to_currency(@subscription.plan.price) %></p></li>
+                            <% if @subscription.plan.features.any? %>
+                                <% @subscription.plan.features.each do |feature| %>
+                                    <li><%= feature %></li>
+                                <% end %>
+                            <% end %>
+                            <li><p>Preço: <%= number_to_currency(@subscription.plan.price) %></p></li>
                             <li><p>Pagamento feito <%= @subscription.plan.translated_billing_period.downcase %></p></li>
                         </ul>
                     </li>
@@ -44,7 +57,7 @@
                             <h5>Planos disponíveis para você</h5>
                         </li>
                         <li class="list-group-item">
-                            <% if @plans.count { |plan| plan.name != @subscription.plan.name } == 0 %>
+                            <% if @plans.none? { |plan| plan.name != @subscription.plan.name } %>
                                 <p>Não há planos disponíveis no momento.</p>
                             <% else %>
                                 <div class="row">
@@ -61,6 +74,16 @@
                                                         <li class="list-group-item">
                                                             <p><%= plan.description %></p>
                                                         </li>
+                                                        <% if plan.features.any? %>
+                                                            <li class="list-group-item">
+                                                                <div>
+                                                                    <h5>O que este plano oferece?</h5>
+                                                                    <% plan.features.each do |feature| %>
+                                                                        <p><%= feature %></p>
+                                                                    <% end %>
+                                                                </div>
+                                                            </li>
+                                                        <% end %>
                                                         <li class="list-group-item">
                                                             <p><b>Preço: </b><%= number_to_currency plan.price %></p>
                                                             <p>Pagamento feito <%= plan.translated_billing_period.downcase %></p>
@@ -83,6 +106,19 @@
                                     <% end %>
                                 </div>
                             <% end %>
+                        </li>
+                        <li class="list-group-item">
+                            <h5>Cancelamento de assinatura</h5>
+                        </li>
+                        <li class="list-group-item">
+                            <p style="display: inline;">
+                                Sente-se insatisfeito com o nosso produto?&nbsp;&nbsp;
+                            </p>
+                            <%= link_to 'Cancelar Assinatura', cancel_subscription_path(token: current_user.token), class: 'btn btn-danger' %>
+                        </p>
+                        <p class="text-muted">
+                            Antes de prosseguir com o cancelamento, lembramos que este processo não pode ser revogado após processado. Caso necessite de ajuda, entre em contato com nossa Central de Atendimento.
+                        </p>
                         </li>
                     <% end %>
                     <li class="list-group-item">
