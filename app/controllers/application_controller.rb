@@ -5,7 +5,8 @@ class ApplicationController < ActionController::Base
 
   before_action :set_billimatic_client
 
-  helper_method :current_user, :billimatic_checkout_url
+  helper_method :current_user, :billimatic_checkout_url,
+                :billimatic_subscription_dashboard_url
 
   def set_billimatic_client
     @client ||= Billimatic.client('4d34754cd68bbe74d725f6c8c9f6b48f')
@@ -17,5 +18,9 @@ class ApplicationController < ActionController::Base
 
   def billimatic_checkout_url(token:)
     "http://sandbox.billimatic.com.br/subscriptions/checkout/#{token}"
+  end
+
+  def billimatic_subscription_dashboard_url(token:)
+    "http://sandbox.billimatic.com.br/subscriptions/#{token}/dashboard"
   end
 end

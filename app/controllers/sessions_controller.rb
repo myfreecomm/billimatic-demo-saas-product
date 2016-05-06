@@ -1,5 +1,6 @@
 class SessionsController < ApplicationController
   def new
+    session[:user_id] = nil
   end
 
   def create
@@ -13,6 +14,6 @@ class SessionsController < ApplicationController
 
   def destroy
     session[:user_id] = nil
-    redirect_to root_url, notice: 'Até breve !'
+    redirect_to root_url, notice: 'Você deslogou com sucesso !'
   end
 end

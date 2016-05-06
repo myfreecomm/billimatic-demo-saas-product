@@ -1,0 +1,53 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4><%= current_user.name %></h4>&nbsp;&bull;
+                    <%= link_to 'Voltar para a página inicial', root_path %>
+                </div>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <h5>Contrato</h5>
+                    </li>
+                    <li class="list-group-item">
+                        <p>Nome: <%= @subscription.name %></p>
+                        <p>Título: <%= @subscription.title %></p>
+                    </li>
+                    <li class="list-group-item">
+                        <p>Data de início da vigência: <%= l @subscription.init_date %></p>
+                        <% if @subscription.status == 'trial' %>
+                            <p>Término do período de degustação: <%= l @subscription.end_date %></p>
+                            <p>
+                                Você ainda tem <%= distance_of_time_in_words(Date.today, @subscription.end_date) %> para avaliar nosso produto.
+                                Para efetuar a compra, clique <b><%= link_to 'aqui', billimatic_checkout_url(token: current_user.token) %></b>.
+                        <% end %>
+                        <% if @subscription.overdue == true %>
+                            O seu contrato encontra-se com pagamentos em atraso.
+                            Para efetuar a regularização de seu contrato, clique <b><%= link_to 'aqui', billimatic_checkout_url(token: current_user.token) %></b>.
+                        <% end %>
+                            </p>
+                            <p>
+                                <% if @subscription.status == 'established' %>
+                                    Clique <b><%= link_to 'aqui', billimatic_subscription_dashboard_url(token: current_user.token) %></b> para acessar o dashboard de seu contrato.
+                                <% end %>
+                            </p>
+                    </li>
+                    <li class="list-group-item">
+                        <h5>Plano Contratado</h5>
+                    </li>
+                    <li class="list-group-item">
+                        <p><%= @subscription.plan.name %></p>
+                        <p><%= @subscription.plan.description %></p>
+                        <p><%= number_to_currency(@subscription.plan.price) %></p>
+                    </li>
+                    <li class="list-group-item">
+                        <p>
+                            O token do seu contrato é <%= current_user.token %> (para login)
+                        </p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

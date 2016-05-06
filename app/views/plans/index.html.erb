@@ -12,7 +12,7 @@
                             <h5>O que este plano oferece?</h5>
                             <p><%= plan.description %></p>
                             <p>
-                                <h4>Preço: </h4><%= number_to_currency(plan.price, format: "%u %n", separator: ",", delimiter: ".", unit: "R$") %>
+                                <h4>Preço: </h4><%= number_to_currency(plan.price) %>
                             </p>
                             <h5>Que produtos este plano oferece?</h5>
                             <% plan.products.each do |product| %>
