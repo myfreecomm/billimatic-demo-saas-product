@@ -31,7 +31,7 @@ gem 'billimatic-client', '~> 0.1.0'
 # gem 'bcrypt', '~> 3.1.7'
 
 # Use Puma as the app server
-gem 'puma', '~> 3.2'
+gem 'puma', '~> 3.4'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
@@ -43,7 +43,7 @@ group :development, :test do
   gem 'byebug', '~> 8.2'
   gem 'rake', '~> 11.1'
   gem 'rspec-rails', '~> 3.3'
-  gem 'factory_girl_rails', '~> 4.5'
+  gem 'factory_girl_rails', '~> 4.7'
   gem 'database_cleaner', '~> 1.5'
   gem 'rspec-collection_matchers', '~> 1.1'
   gem 'rspec-its', '~> 1.2'
@@ -60,10 +60,10 @@ group :development do
   gem 'web-console', '~> 3.1'
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring', '~> 1.6'
+  gem 'spring', '~> 1.7'
   gem 'spring-commands-rspec', '~> 1.0'
 
   gem 'guard-rspec', '~> 4.6', require: false
 
-  gem 'foreman', '~> 0.78'
+  gem 'foreman', '~> 0.81'
 end
