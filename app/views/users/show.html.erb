@@ -45,7 +45,7 @@
                             <li><p><%= @subscription.plan.name %></p></li>
                             <% if @subscription.plan.features.any? %>
                                 <% @subscription.plan.features.each do |feature| %>
-                                    <li><%= feature %></li>
+                                    <li><%= feature.description %></li>
                                 <% end %>
                             <% end %>
                             <li><p>Preço: <%= number_to_currency(@subscription.plan.price) %></p></li>
@@ -79,7 +79,7 @@
                                                                 <div>
                                                                     <h5>O que este plano oferece?</h5>
                                                                     <% plan.features.each do |feature| %>
-                                                                        <p><%= feature %></p>
+                                                                        <p><%= feature.description %></p>
                                                                     <% end %>
                                                                 </div>
                                                             </li>
