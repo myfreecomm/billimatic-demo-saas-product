@@ -19,8 +19,7 @@ class SubscriptionsController < ApplicationController
           district: params[:customer_address_information_district],
           zipcode: params[:customer_address_information_zipcode],
           city: params[:customer_address_information_city],
-          state: params[:customer_address_information_state],
-          ibge_code: params[:customer_address_information_ibge_code]
+          state: params[:customer_address_information_state]
         }
       }
     )
