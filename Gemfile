@@ -26,7 +26,7 @@ gem 'jbuilder', '~> 2.4'
 gem 'sdoc', '~> 0.4', group: :doc
 
 # A Ruby client for the Billimatic API. Read more: https://github.com/myfreecomm/billimatic-client-ruby
-gem 'billimatic-client', '~> 0.1.1'
+gem 'billimatic-client', '~> 0.1.2'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
