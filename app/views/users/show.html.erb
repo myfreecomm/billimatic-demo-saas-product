@@ -12,9 +12,13 @@
                     <li class="list-group-item">
                         <p>Data de início da assinatura: <%= l @subscription.init_date %></p>
                         <% if @subscription.status == 'trial' %>
-                            <p>Término do período de degustação: <%= l @subscription.end_date %></p>
+                            <p>Término do período de degustação: <%= l @subscription.valid_until %></p>
                             <p>
-                                Você ainda tem <%= distance_of_time_in_words(Date.today, @subscription.end_date) %> para avaliar nosso produto.
+                                <% if @subscription.valid_until.past? %>
+                                    O período de degustação desta assinatura está expirado.
+                                <% else %>
+                                    Você ainda tem <%= distance_of_time_in_words(Date.today, @subscription.end_date) %> para avaliar nosso produto.
+                                <% end %>
                                 Para efetuar a compra, clique <b><%= link_to 'aqui', billimatic_checkout_url(token: current_user.token) %></b>.
                             </p>
                         <% elsif @subscription.overdue == true && @subscription.status != 'cancelled' %>
@@ -52,7 +56,7 @@
                             <li><p>Pagamento feito <%= @subscription.plan.translated_billing_period.downcase %></p></li>
                         </ul>
                     </li>
-                    <% unless @subscription.status == 'trial' || @subscription.status == 'cancelled' %>
+                    <% unless @subscription.status == 'cancelled' %>
                         <li class="list-group-item">
                             <h5>Planos disponíveis para você</h5>
                         </li>
