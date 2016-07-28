@@ -36,8 +36,18 @@
                         <% elsif @subscription.status == 'cancelled' %>
                             <p>Término da assinatura: <%= l @subscription.end_date %></p>
                             <p class="text-danger">
-                                Sua assinatura foi cancelada recentemente. Para ter acesso ao produto, é necessária a criação de uma nova assinatura.
-                                Se este cancelamento não foi feito por você, por favor, entre em contato com nossa Central de Atendimento.
+                                Sua assinatura foi cancelada recentemente. Se este cancelamento não foi feito por você, por favor, entre em contato com nossa Central de Atendimento.
+                            </p>
+                            <p><b>Para ter acesso ao produto novamente, você pode:</b></p>
+                            <p>
+                                <ul>
+                                    <li>
+                                        retornar à <%= link_to 'página principal', logout_path %> e criar uma nova assinatura para um de nossos planos, ou
+                                    </li>
+                                    <li>
+                                        clicar <%= checkout_link(token: current_user.token) %> para realizar uma nova compra para este plano.
+                                    </li>
+                                </ul>
                             </p>
                             <p>
                                 Clique <b><%= subscription_dashboard_link(token: current_user.token) %></b> para visualizar o seu histórico de pagamentos.
