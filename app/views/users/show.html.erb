@@ -97,13 +97,7 @@
                                                         </li>
                                                         <li class="list-group-item">
                                                             <div class="col-sm-offset-3">
-                                                                <% if plan.price < @subscription.plan.price && plan.billing_period == @subscription.plan.billing_period %>
-                                                                    <h4><%= plan_modification_link(label: 'Fazer downgrade', token: current_user.token, plan_id: plan.id) %></h4>
-                                                                <% elsif plan.price > @subscription.plan.price && plan.billing_period == @subscription.plan.billing_period  %>
-                                                                    <h4><%= plan_modification_link(label: 'Fazer upgrade', token: current_user.token, plan_id: plan.id) %></h4>
-                                                                <% elsif plan.billing_period != @subscription.plan.billing_period %>
-                                                                    <h4><%= plan_modification_link(label: 'Alterar plano', token: current_user.token, plan_id: plan.id) %></h4>
-                                                                <% end %>
+                                                                <h4><%= plan_modification_link(@subscription, plan, token: current_user.token)%></h4>
                                                             </div>
                                                         </li>
                                                     </ul>

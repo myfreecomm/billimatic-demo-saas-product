@@ -12,10 +12,10 @@ module ApplicationHelper
     )
   end
 
-  def plan_modification_link(label:, token:, plan_id:)
+  def plan_modification_link(subscription, plan, token:)
     link_to(
-      label,
-      Billimatic::UrlHelpers.instance.change_plan_url(token: token, plan_id: plan_id)
+      SubscriptionPlanModificationView.new(subscription, plan).label,
+      Billimatic::UrlHelpers.instance.change_plan_url(token: token, plan_id: plan.id)
     )
   end
 end
