@@ -39,6 +39,9 @@
                                 Sua assinatura foi cancelada recentemente. Para ter acesso ao produto, é necessária a criação de uma nova assinatura.
                                 Se este cancelamento não foi feito por você, por favor, entre em contato com nossa Central de Atendimento.
                             </p>
+                            <p>
+                                Clique <b><%= subscription_dashboard_link(token: current_user.token) %></b> para visualizar o seu histórico de pagamentos.
+                            </p>
                         <% end %>
                     </li>
                     <li class="list-group-item">
