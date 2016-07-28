@@ -19,19 +19,19 @@
                                 <% else %>
                                     Você ainda tem <%= distance_of_time_in_words(Date.today, @subscription.end_date) %> para avaliar nosso produto.
                                 <% end %>
-                                Para efetuar a compra, clique <b><%= link_to 'aqui', billimatic_checkout_url(token: current_user.token) %></b>.
+                                Para efetuar a compra, clique <b><%= checkout_link(token: current_user.token) %></b>.
                             </p>
                         <% elsif @subscription.overdue == true && @subscription.status != 'cancelled' %>
                             <p>
                                 O seu contrato encontra-se com pagamentos em atraso, por isso, o seu acesso está bloqueado.
-                                Para efetuar a regularização de seu contrato, clique <b><%= link_to 'aqui', billimatic_checkout_url(token: current_user.token) %></b>.
+                                Para efetuar a regularização de seu contrato, clique <b><%= checkout_link(token: current_user.token) %></b>.
                             </p>
                         <% elsif @subscription.status == 'established' %>
                             <p class="text-success">
                                 Assinatura ativa.
                             </p>
                             <p>
-                                Clique <b><%= link_to 'aqui', billimatic_subscription_dashboard_url(token: current_user.token) %></b> para acessar o seu histórico de pagamentos, dados de cobrança e forma de pagamento.
+                                Clique <b><%= subscription_dashboard_link(token: current_user.token) %></b> para acessar o seu histórico de pagamentos, dados de cobrança e forma de pagamento.
                             </p>
                         <% elsif @subscription.status == 'cancelled' %>
                             <p>Término da assinatura: <%= l @subscription.end_date %></p>
@@ -95,11 +95,11 @@
                                                         <li class="list-group-item">
                                                             <div class="col-sm-offset-3">
                                                                 <% if plan.price < @subscription.plan.price && plan.billing_period == @subscription.plan.billing_period %>
-                                                                    <h4><%= link_to 'Fazer downgrade', billimatic_change_plan_url(token: current_user.token, plan_id: plan.id) %></h4>
+                                                                    <h4><%= plan_modification_link(label: 'Fazer downgrade', token: current_user.token, plan_id: plan.id) %></h4>
                                                                 <% elsif plan.price > @subscription.plan.price && plan.billing_period == @subscription.plan.billing_period  %>
-                                                                    <h4><%= link_to 'Fazer upgrade', billimatic_change_plan_url(token: current_user.token, plan_id: plan.id) %></h4>
+                                                                    <h4><%= plan_modification_link(label: 'Fazer upgrade', token: current_user.token, plan_id: plan.id) %></h4>
                                                                 <% elsif plan.billing_period != @subscription.plan.billing_period %>
-                                                                    <h4><%= link_to 'Alterar plano', billimatic_change_plan_url(token: current_user.token, plan_id: plan.id) %></h4>
+                                                                    <h4><%= plan_modification_link(label: 'Alterar plano', token: current_user.token, plan_id: plan.id) %></h4>
                                                                 <% end %>
                                                             </div>
                                                         </li>
