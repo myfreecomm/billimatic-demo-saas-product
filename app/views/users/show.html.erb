@@ -25,13 +25,11 @@
                             <p>
                                 O seu contrato encontra-se com pagamentos em atraso, por isso, o seu acesso está bloqueado.
                                 Para efetuar a regularização de seu contrato, clique <b><%= checkout_link(token: current_user.token) %></b>.
+                                Se você já efetuou esta operação, o acesso ao produto será liberado somente após o pagamento da cobrança.
                             </p>
                         <% elsif @subscription.status == 'established' %>
                             <p class="text-success">
                                 Assinatura ativa.
-                            </p>
-                            <p>
-                                Clique <b><%= subscription_dashboard_link(token: current_user.token) %></b> para acessar o seu histórico de pagamentos, dados de cobrança e forma de pagamento.
                             </p>
                         <% elsif @subscription.status == 'cancelled' %>
                             <p>Término da assinatura: <%= l @subscription.end_date %></p>
@@ -49,10 +47,10 @@
                                     </li>
                                 </ul>
                             </p>
-                            <p>
-                                Clique <b><%= subscription_dashboard_link(token: current_user.token) %></b> para visualizar o seu histórico de pagamentos.
-                            </p>
                         <% end %>
+                        <p>
+                            Clique <b><%= subscription_dashboard_link(token: current_user.token) %></b> para acessar o seu histórico de pagamentos, dados de cobrança e forma de pagamento.
+                        </p>
                     </li>
                     <li class="list-group-item">
                         <h5>Detalhes do Plano</h5>
@@ -69,7 +67,7 @@
                             <li><p>Pagamento feito <%= @subscription.plan.translated_billing_period.downcase %></p></li>
                         </ul>
                     </li>
-                    <% unless @subscription.status == 'cancelled' %>
+                    <% unless @subscription.status == 'cancelled' or @subscription.overdue == true %>
                         <li class="list-group-item">
                             <h5>Planos disponíveis para você</h5>
                         </li>
@@ -118,19 +116,21 @@
                                 </div>
                             <% end %>
                         </li>
-                        <li class="list-group-item">
-                            <h5>Cancelamento de assinatura</h5>
-                        </li>
-                        <li class="list-group-item">
-                            <p style="display: inline;">
-                                Sente-se insatisfeito com o nosso produto?&nbsp;&nbsp;
-                            </p>
-                            <%= link_to 'Cancelar Assinatura', cancel_subscription_path(token: current_user.token), class: 'btn btn-danger' %>
+                        <% unless @subscription.status == 'trial' %>
+                            <li class="list-group-item">
+                                <h5>Cancelamento de assinatura</h5>
+                            </li>
+                            <li class="list-group-item">
+                                <p style="display: inline;">
+                                    Sente-se insatisfeito com o nosso produto?&nbsp;&nbsp;
+                                </p>
+                                <%= link_to 'Cancelar Assinatura', cancel_subscription_path(token: current_user.token), class: 'btn btn-danger' %>
                         </p>
                         <p class="text-muted">
                             Antes de prosseguir com o cancelamento, lembramos que este processo não pode ser revogado após processado. Caso necessite de ajuda, entre em contato com nossa Central de Atendimento.
                         </p>
-                        </li>
+                            </li>
+                        <% end %>
                     <% end %>
                     <li class="list-group-item">
                         <p>
